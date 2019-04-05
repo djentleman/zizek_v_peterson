@@ -1,6 +1,7 @@
 import markovify
 from settings import (
-    MARKOV_CHAIN_STATE_SIZE
+    MARKOV_CHAIN_STATE_SIZE,
+    ADD_EXTRA_POINT
 )
 from nltk.corpus import (
     stopwords
@@ -39,6 +40,8 @@ class Debator():
                                       for argument in potential_counter_arguments
                                       if argument != None]
         counter_arguments = sorted(potential_counter_arguments, key=lambda x: -get_similarity(x, argument))[:count]
+        if ADD_EXTRA_POINT:
+            counter_arguments = counter_arguments + [self.markov_model.make_sentence()]
         return ' '.join(counter_arguments)
 
 
